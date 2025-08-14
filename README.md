@@ -6,6 +6,8 @@ This project demonstrates how to deploy a MySQL InnoDB ClusterSet across two Kub
 
 We are building a unified, multi-cluster MySQL architecture with high availability and service discovery — all running on a single VM using lightweight Kubernetes environments.
 
+![cilium-mesh2.drawio.png](imgs/cilium-mesh2.drawio.png)
+
 ---
 
 ## 🔧 Infrastructure Overview
@@ -20,6 +22,26 @@ Cilium is used as the CNI (Container Network Interface) plugin for both clusters
 
 With Cilium Cluster Mesh, pods and services in each cluster can discover and communicate across cluster boundaries as if they were on the same flat network, regardless of Kubernetes distribution or hosting location.
 
+```mermaid
+graph TD
+    VM["Cloud-hosted Virtual Machine"]
+    subgraph KIND Cluster 1
+        K1["Kubernetes Cluster 1"]
+        C1["Cilium CNI"]
+    end
+    subgraph KIND Cluster 2
+        K2["Kubernetes Cluster 2"]
+        C2["Cilium CNI"]
+    end
+    VM --> K1
+    VM --> K2
+    K1 --> C1
+    K2 --> C2
+    C1 <--> C2
+    note1["Cilium Cluster Mesh"]
+    C1 --- note1
+    C2 --- note1
+```
 ---
 
 ## 🐬 MySQL Deployment
@@ -209,6 +231,40 @@ At the DNS level, they:
 - Manage service names across clusters
 - Enable seamless cross-cluster service discovery
 - Allow applications in different clusters to access services using consistent and centralized DNS names
+
+```mermaid
+flowchart TD
+    subgraph ClusterA["Kubernetes Cluster A"]
+        SA["Service A"]
+        SEA["ServiceExport (CRD)"]
+        CDA["CoreDNS"]
+    end
+    subgraph ClusterB["Kubernetes Cluster B"]
+        SB["Service B"]
+        SEB["ServiceExport (CRD)"]
+        CDB["CoreDNS"]
+    end
+    subgraph MCSAPI["Cilium Multi-Cluster Services API"]
+        SI["ServiceImport (CRD)"]
+        DNS["Centralized DNS Resolution"]
+    end
+
+    SA -- Export --> SEA
+    SB -- Export --> SEB
+    SEA -- Sync --> SI
+    SEB -- Sync --> SI
+    SI -- Register --> DNS
+    CDA -- Query --> DNS
+    CDB -- Query --> DNS
+    DNS -- Resolve --> CDA
+    DNS -- Resolve --> CDB
+
+    CDA -- App DNS Query --> SA
+    CDB -- App DNS Query --> SB
+
+    note1["Applications in either cluster can resolve and access services using centralized DNS names (e.g., *.svc.clusterset.local)"]
+    DNS --- note1
+```    
 
 It is preferable to use the Cilium MCS API rather than the legacy Global Services feature, as MCS-API follows the Kubernetes multicluster standard (ServiceExport / ServiceImport), offers better interoperability, and is actively maintained.
 
@@ -436,7 +492,7 @@ getent hosts innodbcluster02-instances.innodb02.svc.clusterset.local
 
 ---
 
-## 🛠️ Step 6 – Adding Replica Cluster to The InnoDB ClusterSet from DR Cluster
+## 🛠️ Step 6 – Adding Replica Cluster to The InnoDB ClusterSet from innodbcluster02 Cluster
 
 First, dissolve the existing InnoDB Cluster on the `innodbcluster02` site and prepare its nodes to be added as a new replica cluster.  
 Create a replica cluster named `myreplica` using the first node of the `innodbcluster02` site as the seed member.
