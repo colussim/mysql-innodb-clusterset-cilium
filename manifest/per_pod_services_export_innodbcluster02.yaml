@@ -1,0 +1,94 @@
+# file: per-pod-services-innodbcluster02.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: innodbcluster02-0
+  namespace: innodb02
+  annotations:
+    service.cilium.io/affinity: remote
+    service.cilium.io/global: "true"
+    service.cilium.io/global-sync-endpoint-slices: "true"
+    service.cilium.io/shared: "true"
+spec:
+  selector:
+    statefulset.kubernetes.io/pod-name: innodbcluster02-0
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+    - name: mysqlx
+      port: 33060
+      targetPort: 33060
+    - name: gr-xcom
+      port: 33061
+      targetPort: 33061
+  type: ClusterIP
+---
+apiVersion: multicluster.x-k8s.io/v1alpha1
+kind: ServiceExport
+metadata:
+  name: innodbcluster02-0
+  namespace: innodb02
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: innodbcluster02-1
+  namespace: innodb02
+  annotations:
+    service.cilium.io/affinity: remote
+    service.cilium.io/global: "true"
+    service.cilium.io/global-sync-endpoint-slices: "true"
+    service.cilium.io/shared: "true"
+spec:
+  selector:
+    statefulset.kubernetes.io/pod-name: innodbcluster02-1
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+    - name: mysqlx
+      port: 33060
+      targetPort: 33060
+    - name: gr-xcom
+      port: 33061
+      targetPort: 33061
+  type: ClusterIP
+---
+apiVersion: multicluster.x-k8s.io/v1alpha1
+kind: ServiceExport
+metadata:
+  name: innodbcluster02-1
+  namespace: innodb02
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: innodbcluster02-2
+  namespace: innodb02
+  annotations:
+    service.cilium.io/affinity: remote
+    service.cilium.io/global: "true"
+    service.cilium.io/global-sync-endpoint-slices: "true"
+    service.cilium.io/shared: "true"
+spec:
+  selector:
+    statefulset.kubernetes.io/pod-name: innodbcluster02-2
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+    - name: mysqlx
+      port: 33060
+      targetPort: 33060
+    - name: gr-xcom
+      port: 33061
+      targetPort: 33061
+  type: ClusterIP
+---
+apiVersion: multicluster.x-k8s.io/v1alpha1
+kind: ServiceExport
+metadata:
+  name: innodbcluster02-2
+  namespace: innodb02

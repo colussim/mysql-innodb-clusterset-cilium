@@ -1,3 +1,5 @@
+ ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)![Static Badge](https://img.shields.io/badge/MySQL_Operator-V9.4.0-blue:)![Static Badge](https://img.shields.io/badge/Cilium-V1.18.0-blue:)
+
 # 🚀 Deploying MySQL InnoDB ClusterSet Across Multiple Kubernetes Clusters with Cilium
 
 ## 📘 Introduction
