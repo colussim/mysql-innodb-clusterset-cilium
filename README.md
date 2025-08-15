@@ -550,7 +550,7 @@ JS > cs1.status()
 JS > repc = cs.createReplicaCluster("innodbcluster02-0.innodb02.svc.clusterset.local:3306","innodbcluster02",{recoveryMethod: "clone",recoveryProgress: 1, timeout: 10});
 ```
 
-Add remaining nodes from the DR site:
+Add remaining nodes to Replic Cluster:
 ```javascript
 JS > repc.addInstance('innodbcluster02-1.innodb02.svc.clusterset.local:3306',{recoveryMethod: "clone",recoveryProgress: 1});
 JS > repc.addInstance('innodbcluster02-2.innodb02.svc.clusterset.local:3306',{recoveryMethod: "clone",recoveryProgress: 1});
