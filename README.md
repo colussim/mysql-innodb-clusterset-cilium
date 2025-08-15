@@ -509,11 +509,11 @@ getent hosts innodbcluster02-instances.innodb02.svc.clusterset.local
 ## 🛠️ Step 6 – Adding Replica Cluster to The InnoDB ClusterSet from innodbcluster02 Cluster
 
 First, dissolve the existing InnoDB Cluster on the `innodbcluster02` site and prepare its nodes to be added as a new replica cluster.  
-Create a replica cluster named `myreplica` using the first node of the `innodbcluster02` site as the seed member.
+Create a replica cluster named `innodbcluster02` using the first node of the `innodbcluster02` site as the seed member.
 
 > **Important:** Temporarily stop the MySQL Operator before starting this procedure to avoid interference with manual changes.
 
-Pause the MySQL Operator on the DR cluster:
+Pause the MySQL Operator on the CLUSTER2 cluster:
 ```bash
 kubectl -n mysql-operator scale deploy/mysql-operator --replicas=0 --context $CLUSTER2
 ```
@@ -550,7 +550,7 @@ JS > cs1.status()
 JS > repc = cs.createReplicaCluster("innodbcluster02-0.innodb02.svc.clusterset.local:3306","innodbcluster02",{recoveryMethod: "clone",recoveryProgress: 1, timeout: 10});
 ```
 
-Add remaining nodes to Replic Cluster:
+Add remaining nodes to Replica Cluster:
 ```javascript
 JS > repc.addInstance('innodbcluster02-1.innodb02.svc.clusterset.local:3306',{recoveryMethod: "clone",recoveryProgress: 1});
 JS > repc.addInstance('innodbcluster02-2.innodb02.svc.clusterset.local:3306',{recoveryMethod: "clone",recoveryProgress: 1});
@@ -562,7 +562,7 @@ JS > cs1.status({extended:1});
 JS > repc.status();
 ```
 
-Resume the MySQL Operator on the DR site:
+Resume the MySQL Operator on the CLUSTER2:
 ```bash
 kubectl -n mysql-operator scale deploy/mysql-operator --replicas=1 --context=$CLUSTER2
 kubectl --context $CLUSTER2 -n innodb02 rollout restart deployment innodbcluster02-router
