@@ -46,6 +46,17 @@ graph TD
 ```
 ---
 
+## 📝 Prerequisites
+
+Before you begin, ensure you have:
+- Two operational Kubernetes clusters (e.g., created with KIND)
+- Cilium installed as the CNI plugin on both clusters
+- The MySQL Operator installed on both clusters
+- One MySQL InnoDB Cluster deployed in each Kubernetes cluster
+- The `kubectl` command-line tool installed and configured
+
+---
+
 ## 🐬 MySQL Deployment
 
 Both clusters run MySQL Enterprise using the official MySQL Operator for Kubernetes, enabling:
@@ -53,8 +64,9 @@ Both clusters run MySQL Enterprise using the official MySQL Operator for Kuberne
 - Automatic failover and recovery
 - Seamless cross-cluster replication
 
-> ⚠️ This repository does not cover installation of the MySQL Operator or detailed deployment of InnoDB clusters.
+> ⚠️ This article does not cover the installation of the Kubernetes clusters (KIND),the MySQL Operator or detailed deployment of InnoDB clusters.
 > For step-by-step instructions, refer to:
+> - [Kubernetes Test Platform with Kind and Cilium](https://github.com/colussim/kind-cilium-lab)
 > - [MySQL Operator for Kubernetes - Documentation](https://dev.mysql.com/doc/mysql-operator/en/)
 > - [Deploy a MySQL InnoDB Cluster on Kubernetes with MySQL Operator](https://github.com/colussim/mysql-innodb-k8s-operator)
 
@@ -594,4 +606,5 @@ Continue building on this foundation to create robust, scalable, and secure mult
 - [Deploying InnoDB ClusterSet](https://dev.mysql.com/doc/mysql-shell/9.4/en/innodb-clusterset-deploy.html)
 - [Deploying MySQL InnoDB ClusterSet Across Kubernetes Clusters Using Cilium](https://blogs.oracle.com/mysql/post/deploying-mysql-innodb-clusterset-across-kubernetes-clusters-using-cilium)
 - [Cilium installation values](https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 
