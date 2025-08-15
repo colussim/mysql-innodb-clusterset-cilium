@@ -571,6 +571,22 @@ We look forward to the release of Cilium 1.19.0, which is expected to simplify D
 
 ---
 
+## ⏭️ Next Steps
+
+To further explore your multi-cluster MySQL setup, consider deploying a sample application that connects to MySQL and manages data (such as a web app or API).  
+This will allow you to observe automatic failover and cross-cluster replication in action. You can simulate node or cluster failures and verify that your application continues to operate seamlessly, demonstrating the high availability and resilience provided by MySQL InnoDB ClusterSet and Cilium.
+
+Other next steps:
+- Automate deployments with CI/CD or GitOps tools
+- Implement advanced Cilium network policies and observability
+- Integrate monitoring, backup, and disaster recovery for MySQL
+- Upgrade to Cilium 1.19+ for improved DNS automation
+- Experiment with service mesh integrations
+
+Continue building on this foundation to create robust, scalable, and secure multi-cluster database architectures!
+
+---
+
 ## 📚 References
 
 - [Cilium Cluster Mesh](https://docs.cilium.io/en/stable/network/clustermesh/clustermesh/)
